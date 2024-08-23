@@ -6,5 +6,7 @@
     </x-slot>
 <p>対象者：{{ $post->target }}</p>
 <p>概要：{{ $post->overview }}</p>
-<iframe src="{{ $post->form_url }}" width="640" height="480" frameborder="0" marginheight="0" marginwidth="0">読み込み中...</iframe> 
+<div class="gform">
+<iframe src="{{ $post->form_url }}" max-width="640" width="80%" height="480" frameborder="0" marginheight="0" marginwidth="0">読み込み中...</iframe> 
+</div>
 </x-app-layout>
