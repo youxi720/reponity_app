@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,13 @@ Route::controller(UserController::class)->middleware(['auth'])->group(function()
     Route::get('/users/{user}', 'show')->name('show');
     Route::put('/users/{user}', 'update')->name('update');
     Route::get('/users/{user}/edit', 'edit')->name('edit');
+});
+
+Route::controller(PostController::class)->middleware(['auth'])->group(function(){
+    Route::get('/posts', 'post_index')->name('post_index');
+    Route::get('/posts/create', 'post_create')->name('post_create');
+    Route::post('/posts', 'post_store')->name('post_store');
+    Route::get('/posts/{post}', 'post_show')->name('post_show');
 });
 
 Route::middleware('auth')->group(function () {
