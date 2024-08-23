@@ -10,7 +10,14 @@
     @csrf
     <div class="target">
         <h2>対象者</h2>
-        <input type="text" name="post[target]" placeholder="対象者"/>
+            <input type="checkbox" id="target1" name="post[target][]" value="学部1年生">
+            <label for="target1">学部1年生</label>
+            <input type="checkbox" id="target2" name="post[target][]" value="学部2年生">
+            <label for="target2">学部2年生</label>
+            <input type="checkbox" id="target3" name="post[target][]" value="学部3年生">
+            <label for="target3">学部3年生</label>
+            <input type="checkbox" id="target4" name="post[target][]" value="学部4年生">
+            <label for="target4">学部4年生</label>
     </div>
     <div class="overview">
         <h2>概要</h2>
@@ -18,7 +25,7 @@
     </div>
     <div class="form_url">
         <h2>フォームリンク</h2>
-        <input type="text" name="post[form_url]" placeholder"リンクを貼り付けてください"/>
+        <input type="text" name="post[form_url]" placeholder="リンクを貼り付けてください"/>
     </div>
     <input type="submit" value="store"/> 
 </form>
