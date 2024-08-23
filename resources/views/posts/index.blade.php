@@ -4,16 +4,16 @@
             {{ __('post') }}
         </h2>
     </x-slot>
-<a href='/posts/create'>create</a>
+    <body>
+    <a href='/posts/create'>create</a>
+        @foreach ($posts as $post)
+        <p>対象者：{{ $post->target }}</p>
+    <p>概要：{{ $post->overview }}</p>
+    <a href="/posts/{{ $post->id }}">回答する</a>
+    @endforeach
 
-@foreach ($posts as $post)
-<p>対象者：{{ $post->target }}</p>
-<p>概要：{{ $post->overview }}</p>
-<a href="/posts/{{ $post->id }}">回答する</a>
-@endforeach
-
-<div class='paginate'>
-    {{ $posts->links() }}
-</div>
-
+    <div class='paginate'>
+        {{ $posts->links() }}
+    </div>
+    </body>
 </x-app-layout>
