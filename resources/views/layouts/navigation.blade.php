@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('show', ['user' => Auth::user()->id])" :active="request()->routeIs('/users/{user}')">
                         {{ __('profile') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('post_index')" :active="request()->routeIs('posts')">
+                        {{ __('post') }}
+                    </x-nav-link>
                 </div>
             </div>
 
