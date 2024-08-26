@@ -38,8 +38,12 @@ Route::controller(PostController::class)->middleware(['auth'])->group(function()
     Route::get('/posts/{post}', 'post_show')->name('post_show');
     Route::get('/posts/{post}/edit', 'post_edit')->name('post_edit');
     Route::put('/posts/{post}', 'post_update')->name('post_update');
-    Route::delete('/posts/{post}', 'delete')->name('delete');
+    Route::delete('/posts/{post}', 'post_delete')->name('post_delete');  // 名前を統一
+    Route::post('/posts/{post}/like', 'like')->name('like');
+    Route::delete('/posts/{post}/like', 'unlike')->name('unlike');
+    Route::get('/posts/like/show', 'likeshow')->name('likeshow');
 });
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
