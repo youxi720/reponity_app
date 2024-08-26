@@ -18,7 +18,7 @@
     <p>学部：{{ $user_profile->faculty }}</p>
     <p>趣味：{{ $user_profile->hobby }}</p>
     <p>回答数：{{ $user_profile->answers }}</p>
-    <a href="/users/{{ $user_profile->id }}/edit" class="text-red-600 ">edit</a>
+    <a href="/users/{{ $user_profile->id }}/edit" class="text-red-600">edit</a>
 </body>
 </x-app-layout>
 </html>

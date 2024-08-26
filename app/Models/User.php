@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Post;
+use App\Models\Likepost;
 
 class User extends Authenticatable
 {
@@ -48,8 +49,14 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
     
-        public function posts()
+    public function posts()
     {
         return $this->hasMany(Post::class);
     }
+    
+    public function likeposts()
+    {
+        return $this->hasMany(Likepost::class);
+    }
+    
 }
