@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Post;
+use App\Models\Likepost;
 
 class PostController extends Controller
 {
@@ -69,4 +70,59 @@ class PostController extends Controller
         $post->delete();
         return redirect("/posts/my_posts");
     }
+    
+    public function like(Request $request, Post $post)
+    {
+        $user = Auth::user();
+    
+        if ($user) 
+        {
+            $user_id = Auth::id();
+        
+            $existingLike = Likepost::where('post_id', $post->id)
+                ->where('user_id', $user_id)->first();
+        
+            if (!$existingLike)
+            {
+                $likepost = new Likepost();  
+                $likepost->post_id = $post->id;
+                $likepost->user_id = $user_id;
+                $likepost->save();
+            }
+        }
+        return redirect("/posts");
+    }
+
+    public function unlike(Request $request, Post $post)
+    {
+        $user = Auth::user();
+    
+        if ($user) 
+        {
+            $user_id = Auth::id();
+        
+            $existingLike = Likepost::where('post_id', $post->id)
+                ->where('user_id', $user_id)->first();
+        
+            if ($existingLike)
+            {
+                $existingLike->delete();  
+            }
+        }
+        return redirect("/posts");
+    }
+    
+    public function likeshow(Request $request, Post $post)
+    {
+        $user_id = Auth::id(); // 現在のユーザーのIDを取得
+    
+        // ユーザーがいいねした投稿を取得
+        // likeposts というリレーションが存在する Post モデルのレコードだけを取得
+        $posts = Post::whereHas('likeposts', function($query) use ($user_id) {
+            $query->where('user_id', $user_id);
+        })->paginate(5);
+    
+        return view('posts.likes')->with(['posts' => $posts]);
+    }
+
 }
