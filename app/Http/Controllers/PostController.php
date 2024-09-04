@@ -37,7 +37,8 @@ class PostController extends Controller
     
     public function post_show(Post $post)
     {
-        return view('posts.show')->with(['post' => $post]);
+        $user = Auth::user();
+        return view('posts.show')->with(['post' => $post, 'user' => $user]);
     }
     
     public function my_posts(Post $post)
@@ -78,10 +79,10 @@ class PostController extends Controller
         if ($user) 
         {
             $user_id = Auth::id();
-        
+        //いいねをしているか判定
             $existingLike = Likepost::where('post_id', $post->id)
                 ->where('user_id', $user_id)->first();
-        
+        //いいねをしていなければテーブルに保存処理を行う
             if (!$existingLike)
             {
                 $likepost = new Likepost();  
@@ -103,7 +104,7 @@ class PostController extends Controller
         
             $existingLike = Likepost::where('post_id', $post->id)
                 ->where('user_id', $user_id)->first();
-        
+            
             if ($existingLike)
             {
                 $existingLike->delete();  
