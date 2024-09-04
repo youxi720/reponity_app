@@ -28,6 +28,8 @@ Route::controller(UserController::class)->middleware(['auth'])->group(function()
     Route::get('/users/{user}', 'show')->name('show');
     Route::put('/users/{user}', 'update')->name('update');
     Route::get('/users/{user}/edit', 'edit')->name('edit');
+    Route::get('/postsubmit', 'thankspage')->name('thanks');
+    Route::post('/users/{user}/postsubmit', 'countAnswers')->name('count-ans');
 });
 
 Route::controller(PostController::class)->middleware(['auth'])->group(function(){

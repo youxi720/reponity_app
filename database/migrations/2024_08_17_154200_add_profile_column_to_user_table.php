@@ -15,7 +15,7 @@ return new class extends Migration
             $table->integer('grade')->nullable();
             $table->string('faculty')->nullable();
             $table->string('hobby', 50)->nullable();
-            $table->integer('answers')->nullable();
+            $table->integer('answers')->default(0);
             $table->softDeletes();
         });
     }
