@@ -14,7 +14,7 @@
     </x-slot>
 <body>
     <p>名前：{{ $user_profile->name }}</p>
-    <p>学年：学部{{ $user_profile->grade }}年生</p>
+    <p>学年：学部 {{ $user_profile->grade }} 年生</p>
     <p>学部：{{ $user_profile->faculty }}</p>
     <p>趣味：{{ $user_profile->hobby }}</p>
     <p>回答数：{{ $user_profile->answers }}</p>

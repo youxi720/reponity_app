@@ -48,3 +48,5 @@ class Post extends Model
         return in_array($id, $likers);
     }
 }
+
+?>
