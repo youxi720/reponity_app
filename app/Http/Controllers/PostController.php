@@ -6,124 +6,128 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Post;
+use App\Models\Target;
 use App\Models\Likepost;
 
 class PostController extends Controller
 {
-    public function post_index(Post $post)
+    // 投稿の一覧表示
+    public function post_index()
     {
-        return view('posts.index')->with(['posts' => $post->getPaginateByLimit()]);
+        $posts = Post::paginate(10); // 1ページあたり10件表示
+        return view('posts.index', compact('posts'));
     }
     
+    // 投稿作成フォーム表示
     public function post_create()
     {
-        return view('posts.create');
+        $allTargets = Target::all(); // すべてのターゲットを取得
+        return view('posts.create', compact('allTargets'));
     }
     
-    public function post_store(Request $request, Post $post)
+    // 投稿の保存
+    public function post_store(Request $request)
     {
         $input = $request->input('post');
-        
-        // チェックボックスで選択されたtargetが配列であることを確認
-        if (isset($input['target']) && is_array($input['target'])) 
-    {   // 配列をカンマ区切りの文字列に変換して保存
-        $input['target'] = implode(',', $input['target']);
-    }
-    
         $input['user_id'] = $request->user()->id;
-        $post->fill($input)->save();
+        
+        $targetIds = $input['target_ids'] ?? []; // 選択されたターゲットIDの配列
+        
+        $post = Post::create($input); // 投稿を作成
+        $post->targets()->sync($targetIds); // ターゲットを関連付け
+
         return redirect('/posts');
     }
     
+    // 投稿の詳細表示
     public function post_show(Post $post)
     {
         $user = Auth::user();
-        return view('posts.show')->with(['post' => $post, 'user' => $user]);
+        return view('posts.show', compact('post', 'user'));
     }
     
-    public function my_posts(Post $post)
+    // 自分の投稿一覧
+    public function my_posts()
     {
         $posts = Post::where('user_id', Auth::id())->paginate(5);
-        return view('posts.my_posts')->with(['posts' => $posts]);
+        return view('posts.my_posts', compact('posts'));
     }
     
+    // 投稿編集フォーム表示
     public function post_edit(Post $post)
     {
-        return view('posts.edit')->with(['post' => $post]);
+        $allTargets = Target::all(); // すべてのターゲットを取得
+        return view('posts.edit', compact('post', 'allTargets'));
     }
     
+    // 投稿の更新
     public function post_update(Request $request, Post $post)
     {
-        $input_post = $request->input('post');
-    
-        if (isset($input_post['target']) && is_array($input_post['target'])) 
-        {
-            $input_post['target'] = implode(',', $input_post['target']);
-        };
-    
-        $input_post['user_id'] = $request->user()->id; 
-        $post->fill($input_post)->save();
+        $input = $request->input('post');
+        $spreadsheetUrl = $request->input('spreadsheet_url');
+        $sheetId = $this->getSpreadsheetId($spreadsheetUrl);
+
+        if ($sheetId) {
+            $input['sheet'] = $sheetId;
+        }
+        
+        $targetIds = $input['target_ids'] ?? []; // 更新するターゲットIDの配列
+        
+        $post->update($input); // 投稿を更新
+        $post->targets()->sync($targetIds); // ターゲットを更新
+
         return redirect('/posts/my_posts');
     }
     
+    // スプレッドシートIDの抽出
+    private function getSpreadsheetId($url)
+    {
+        $spreadsheetPattern = '/\/d\/([a-zA-Z0-9_-]+)/';
+        if (preg_match($spreadsheetPattern, $url, $matches)) {
+            return $matches[1];
+        }
+        return null;
+    }
+    
+    // 投稿の削除
     public function delete(Post $post)
     {
         $post->delete();
         return redirect("/posts/my_posts");
     }
-    
+
+    // 「いいね」を追加
     public function like(Request $request, Post $post)
     {
         $user = Auth::user();
     
-        if ($user) 
-        {
-            $user_id = Auth::id();
-        //いいねをしているか判定
-            $existingLike = Likepost::where('post_id', $post->id)
-                ->where('user_id', $user_id)->first();
-        //いいねをしていなければテーブルに保存処理を行う
-            if (!$existingLike)
-            {
-                $likepost = new Likepost();  
-                $likepost->post_id = $post->id;
-                $likepost->user_id = $user_id;
-                $likepost->save();
-            }
+        if ($user && !$user->likedPosts()->where('post_id', $post->id)->exists()) {
+            $user->likedPosts()->attach($post->id);
         }
+
         return redirect("/posts");
     }
 
+    // 「いいね」を削除
     public function unlike(Request $request, Post $post)
     {
         $user = Auth::user();
     
-        if ($user) 
-        {
-            $user_id = Auth::id();
-        
-            $existingLike = Likepost::where('post_id', $post->id)
-                ->where('user_id', $user_id)->first();
-            
-            if ($existingLike)
-            {
-                $existingLike->delete();  
-            }
+        if ($user && $user->likedPosts()->where('post_id', $post->id)->exists()) {
+            $user->likedPosts()->detach($post->id);
         }
+
         return redirect("/posts");
     }
     
-    public function likeshow(Request $request, Post $post)
+    // ユーザーが「いいね」した投稿を表示
+    public function likeshow()
     {
-        $user_id = Auth::id(); // 現在のユーザーのIDを取得
-    
-        // ユーザーがいいねした投稿を取得
-        // likeposts というリレーションが存在する Post モデルのレコードだけを取得
-        $posts = Post::whereHas('likeposts', function($query) use ($user_id) {
+        $user_id = Auth::id();
+        $posts = Post::whereHas('likes', function($query) use ($user_id) {
             $query->where('user_id', $user_id);
         })->paginate(5);
-    
-        return view('posts.likes')->with(['posts' => $posts]);
-    }
 
+        return view('posts.likes', compact('posts'));
+    }
 }

@@ -6,13 +6,13 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
-    <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('post') }}
-        </h2>
-    </x-slot>
     <body>
+        <x-app-layout>
+        <x-slot name="header">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('post') }}
+            </h2>
+        </x-slot>
         <h1 class="title">編集画面</h1>
         <div class="content">
             <form action="/posts/{{ $post->id }}" method="POST">
@@ -20,22 +20,25 @@
                 @method("PUT")
                 <div class="target">
                     <h2>対象者</h2>
-                    <input type="checkbox" id="target1" name="post[target][]" value="学部1年生">
-                    <label for="target1">学部1年生</label>
-                    <input type="checkbox" id="target2" name="post[target][]" value="学部2年生">
-                    <label for="target2">学部2年生</label>
-                    <input type="checkbox" id="target3" name="post[target][]" value="学部3年生">
-                    <label for="target3">学部3年生</label>
-                    <input type="checkbox" id="target4" name="post[target][]" value="学部4年生">
-                    <label for="target4">学部4年生</label>
+                    <select name="post[target_ids][]" multiple>
+                    @foreach($allTargets as $target)
+                        <option value="{{ $target->id }}" {{ $post->targets->contains($target->id) ? 'selected' : '' }}>
+                        {{ $target->target }}
+                        </option>
+                    @endforeach
+                    </select>
                 </div>
                 <div class="overview">
                     <h2>概要</h2>
-                    <textarea name="post[overview]">{{ $post->overview }}</textarea>
+                    <textarea name="post[overview]" required>{{ $post->overview }}</textarea>
                 </div>
                 <div class="form_url">
                     <h2>フォームリンク</h2>
-                    <input type="text" name="post[form_url]" value="{{ $post->form_url }}"/>
+                    <input type="text" name="post[form_url]" value="{{ $post->form_url }}" required/>
+                </div>
+                <div class="sheet">
+                    <h2>GoogleスプレッドシートのURL</h2>
+                    <input type="text" name="spreadsheet_url" value="{{ $post->sheet }}" />
                 </div>
                 <input type="submit" value="保存"> 
             </form>
@@ -43,6 +46,6 @@
         <div class="footer">
             <a href="/posts/my_posts">戻る</a>
         </div>
+        </x-app-layout>
     </body>
-    </x-app-layout>
 </html>

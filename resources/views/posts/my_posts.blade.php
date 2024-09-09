@@ -7,10 +7,13 @@
     <body>
     <a href='/posts/create'>create</a>
     @foreach ($posts as $post)
-    <p>対象者：{{ $post->target }}</p>
+    <p>対象者：{{ $post->targets->pluck('target')->implode(', ') }}</p>
     <p>概要：{{ $post->overview }}</p>
     <div class="edit">
         <a href="/posts/{{ $post->id }}/edit">edit</a>
+    </div>
+    <div class="chart">
+        <a href="/chart/{{ $post->id }}">check</a>
     </div>
     <form action="/posts/{{ $post->id }}" id="form_{{ $post->id }}" method="post">
         @csrf

@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\GoogleSheetsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,10 @@ use App\Http\Controllers\PostController;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::controller(GoogleSheetsController::class)->middleware(['auth'])->group(function(){
+    Route::get('/chart/{post}', 'showChart')->name('chart_by_post');
 });
 
 Route::get('/dashboard', function () {
@@ -40,7 +45,7 @@ Route::controller(PostController::class)->middleware(['auth'])->group(function()
     Route::get('/posts/{post}', 'post_show')->name('post_show');
     Route::get('/posts/{post}/edit', 'post_edit')->name('post_edit');
     Route::put('/posts/{post}', 'post_update')->name('post_update');
-    Route::delete('/posts/{post}', 'post_delete')->name('post_delete');  // 名前を統一
+    Route::delete('/posts/{post}', 'delete')->name('delete');  
     Route::post('/posts/{post}/like', 'like')->name('like');
     Route::delete('/posts/{post}/like', 'unlike')->name('unlike');
     Route::get('/posts/like/show', 'likeshow')->name('likeshow');
