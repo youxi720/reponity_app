@@ -5,18 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Post;
-use App\Models\User;
 
-class Likepost extends Model
+class Target extends Model
 {
     use HasFactory;
     
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    protected $fillable = ['target'];
+    
     public function posts()
     {
-        return $this->belongsTo(Post::class);
+        return $this->belongsToMany(Post::class, 'post_target');
     }
 }

@@ -6,7 +6,7 @@
     </x-slot>
     <body>
     @foreach ($posts as $post)
-        <p>対象者：{{ $post->target }}</p>
+        <p>対象者：{{ $post->targets->pluck('target')->implode(', ') }}</p>
         <p>概要：{{ $post->overview }}</p>
         <a href="/posts/{{ $post->id }}">回答する</a>
         <div class='like-btn'>
