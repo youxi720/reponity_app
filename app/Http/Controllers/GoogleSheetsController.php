@@ -36,10 +36,9 @@ class GoogleSheetsController extends Controller
 
         $service = new Google_Service_Sheets($client);
         $range = 'フォームの回答 1';  // シート全体
-    
+        
         $response = $service->spreadsheets_values->get($spreadsheetId, $range);
         $values = $response->getValues();
-
         // データが空かどうか確認
         if (empty($values) || count($values) < 2) {
             return ['data' => [], 'title' => '', 'total' => 0, 'invalid' => 0];

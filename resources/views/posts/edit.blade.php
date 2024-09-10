@@ -20,13 +20,15 @@
                 @method("PUT")
                 <div class="target">
                     <h2>対象者</h2>
-                    <select name="post[target_ids][]" multiple>
-                    @foreach($allTargets as $target)
-                        <option value="{{ $target->id }}" {{ $post->targets->contains($target->id) ? 'selected' : '' }}>
-                        {{ $target->target }}
-                        </option>
-                    @endforeach
-                    </select>
+                    <div>
+                        @foreach($allTargets as $target)
+                            <label>
+                                <input type="checkbox" name="post[target_ids][]" value="{{ $target->id }}"
+                                    {{ $post->targets->contains($target->id) ? 'checked' : '' }}>
+                                {{ $target->target }}
+                            </label><br>
+                        @endforeach
+                    </div>
                 </div>
                 <div class="overview">
                     <h2>概要</h2>
