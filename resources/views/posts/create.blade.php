@@ -10,11 +10,15 @@
     @csrf
     <div class="target">
         <h2>対象者</h2>
-        <select name="post[target_ids][]" multiple>
+        <div>
             @foreach($allTargets as $target)
-                <option value="{{ $target->id }}">{{ $target->target }}</option>
+                <label>
+                <input type="checkbox" name="post[target_ids][]" value="{{ $target->id }}"
+                {{ $post->targets->contains($target->id) ? 'checked' : '' }}>
+                {{ $target->target }}
+                </label><br>
             @endforeach
-        </select>
+        </div>
     </div>
     <div class="overview">
         <h2>概要</h2>

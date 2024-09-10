@@ -5,8 +5,26 @@
         </h2>
     </x-slot>
 
+    <!-- 絞り込みフォーム -->
+    <form method="GET" action="{{ route('post_index') }}">
+        <div class="mb-4">
+            <label for="target">ターゲットで絞り込み:</label>
+            <select name="target_id" id="target">
+                <option value="">全てのターゲット</option>
+                @foreach ($targets as $target)
+                    <option value="{{ $target->id }}" {{ request('target_id') == $target->id ? 'selected' : '' }}>
+                        {{ $target->target }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">絞り込み</button>
+    </form>
+
+    <!-- 投稿作成リンク -->
     <a href='/posts/create' class="btn btn-primary">Create</a>
 
+    <!-- 投稿一覧 -->
     @foreach ($posts as $post)
         <div class="post">
             <p>対象者：{{ $post->targets->pluck('target')->implode(', ') }}</p>
@@ -29,7 +47,8 @@
         </div>
     @endforeach
 
+    <!-- ページネーション -->
     <div class='paginate'>
-        {{ $posts->links() }}
+        {{ $posts->appends(request()->input())->links() }}
     </div>
 </x-app-layout>

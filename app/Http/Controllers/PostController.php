@@ -11,18 +11,30 @@ use App\Models\Likepost;
 
 class PostController extends Controller
 {
-    // 投稿の一覧表示
-    public function post_index()
-    {
-        $posts = Post::paginate(10); // 1ページあたり10件表示
-        return view('posts.index', compact('posts'));
+public function post_index(Request $request)
+{
+    $query = Post::query();
+
+    // 絞り込み処理
+    if ($request->has('target_id') && $request->target_id) {
+        $query->whereHas('targets', function($q) use ($request) {
+            $q->where('target_id', $request->target_id);
+        });
     }
+
+    // 投稿とターゲットデータを取得
+    $posts = $query->paginate(10);
+    $targets = Target::all(); // ターゲット一覧を取得
+
+    return view('posts.index', compact('posts', 'targets'));
+}
+
     
     // 投稿作成フォーム表示
-    public function post_create()
+    public function post_create(Post $post)
     {
         $allTargets = Target::all(); // すべてのターゲットを取得
-        return view('posts.create', compact('allTargets'));
+        return view('posts.create', compact('post', 'allTargets'));
     }
     
     // 投稿の保存
