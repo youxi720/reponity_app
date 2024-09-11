@@ -21,9 +21,8 @@ class GoogleSheetsController extends Controller
             }
 
             return view('chart', compact('data'));
-            }
-        else{
-            return redirect('posts/my_posts');
+        } else {
+            return redirect('posts/my_posts')->withErrors(['error' => 'シートIDが読み込めませんでした。']);
         }
     }
 
@@ -39,28 +38,31 @@ class GoogleSheetsController extends Controller
         
         $response = $service->spreadsheets_values->get($spreadsheetId, $range);
         $values = $response->getValues();
+
         // データが空かどうか確認
         if (empty($values) || count($values) < 2) {
-            return ['data' => [], 'title' => '', 'total' => 0, 'invalid' => 0];
+            return ['data' => [], 'title' => ''];
         }
     
-        // 1列目はタイムスタンプなので、2列目以降の1行目をタイトルとして設定
-        $title = isset($values[0][1]) ? $values[0][1] : 'タイトルが見つかりません';
-
-        // 2列目以降の2行目以降のデータをカウント
+        // 各列ごとのデータを処理
         $result = [];
-        for ($i = 2; $i < count($values); $i++) { // 3行目以降を処理
-            $row = $values[$i];
-            for ($j = 1; $j < count($row); $j++) { // 2列目以降を処理
-                $option = $row[$j];
-                if (isset($result[$option])) {
-                    $result[$option]++;
-                } else {
-                    $result[$option] = 1;
+        $titles = $values[0];  // 1行目はタイトル
+        for ($j = 1; $j < count($titles); $j++) { // 2列目以降のタイトルを取得
+            $question = $titles[$j];
+            $result[$question] = [];
+
+            // 2行目以降のデータをカウント
+            for ($i = 1; $i < count($values); $i++) { // 2行目以降を処理
+                $option = $values[$i][$j] ?? '';  // 列ごとのデータ
+                if ($option !== '') {
+                    if (isset($result[$question][$option])) {
+                        $result[$question][$option]++;
+                    } else {
+                        $result[$question][$option] = 1;
+                    }
                 }
             }
         }
-
-        return ['title' => $title, 'data' => $result];
+        return ['data' => $result];
     }
 }
