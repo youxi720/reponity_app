@@ -27,6 +27,7 @@
     <!-- 投稿一覧 -->
     @foreach ($posts as $post)
         <div class="post">
+            <p>投稿者：{{ $post->user->name }}</p>
             <p>対象者：{{ $post->targets->pluck('target')->implode(', ') }}</p>
             <p>概要：{{ $post->overview }}</p>
             <a href="/posts/{{ $post->id }}" class="btn btn-info">回答する</a>
@@ -37,11 +38,17 @@
                         @method('DELETE')
                         <button type="submit" class="btn btn-success btn-sm">👍</button>
                     </form>
+                    <div class="blank">
+                        <br>
+                    </div>
                 @else
                     <form action="{{ route('like', ['post' => $post->id]) }}" method="POST" style="display:inline;">
                         @csrf
                         <button type="submit" class="btn btn-secondary btn-sm">いいね</button>
                     </form>
+                    <div class="blank">
+                        <br>
+                    </div>
                 @endif
             </div>
         </div>

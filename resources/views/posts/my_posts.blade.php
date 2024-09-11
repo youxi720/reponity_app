@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('myposts') }}
+            {{ __('Myposts') }}
         </h2>
     </x-slot>
     <body>
@@ -20,6 +20,9 @@
         @method('DELETE')
         <button type="button" onclick="deletePost({{ $post->id }})">delete</button>
     </form>
+    <div class="blank">
+        <br>
+    </div>
     @endforeach
 
     <div class='paginate'>
