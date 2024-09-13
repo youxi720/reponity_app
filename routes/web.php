@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\GoogleSheetsController;
+use App\Http\Controllers\CommunityController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,14 @@ Route::controller(PostController::class)->middleware(['auth'])->group(function()
     Route::get('/posts/like/show', 'likeshow')->name('likeshow');
 });
 
+Route::controller(CommunityController::class)->middleware('auth')->group(function(){
+    Route::get('/communities/index', 'index')->name('communities_index');
+    Route::get('/communities/create', 'create')->name('communities_create');
+    Route::get('/communities/{community}', 'show')->name('communities_show');
+    Route::post('/communities', 'store')->name('communities_store');
+    Route::post('/communities/{community}/join', 'join')->name('communities_join');
+    Route::delete('/communities/{id}', 'delete')->name('communities_delete');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

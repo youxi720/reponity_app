@@ -23,11 +23,14 @@
 
     <!-- 投稿作成リンク -->
     <a href='/posts/create' class="btn btn-primary">Create</a>
-
+    <div>
+        <br>
+    </div>
+    
     <!-- 投稿一覧 -->
     @foreach ($posts as $post)
         <div class="post">
-            <p>投稿者：{{ $post->user->name }}</p>
+            <p><a href="/users/{{ $post->user->id }}">投稿者：{{ $post->user->name }}</a></p>
             <p>対象者：{{ $post->targets->pluck('target')->implode(', ') }}</p>
             <p>概要：{{ $post->overview }}</p>
             <a href="/posts/{{ $post->id }}" class="btn btn-info">回答する</a>

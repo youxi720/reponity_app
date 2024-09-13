@@ -23,7 +23,7 @@ public function post_index(Request $request)
     }
 
     // 投稿とターゲットデータを取得
-    $posts = $query->paginate(10);
+    $posts = $query->orderBy('updated_at', 'DESC')->paginate(10);
     $targets = Target::all(); // ターゲット一覧を取得
 
     return view('posts.index', compact('posts', 'targets'));
@@ -78,18 +78,19 @@ public function post_index(Request $request)
         $input = $request->input('post');
         $spreadsheetUrl = $request->input('spreadsheet_url');
         $sheetId = $this->getSpreadsheetId($spreadsheetUrl);
-
+    
         if ($sheetId) {
             $input['sheet'] = $sheetId;
         }
-        
-        $targetIds = $input['target_ids'] ?? []; // 更新するターゲットIDの配列
-        
-        $post->update($input); // 投稿を更新
-        $post->targets()->sync($targetIds); // ターゲットを更新
-
+    
+        $targetIds = $input['target_ids'] ?? [];
+    
+        $post->update($input);
+        $post->targets()->sync($targetIds);
+    
         return redirect('/posts/my_posts');
     }
+
     
     // スプレッドシートIDの抽出
     private function getSpreadsheetId($url)

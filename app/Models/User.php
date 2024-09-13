@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Post;
+use App\Models\Community;
 
 class User extends Authenticatable
 {
@@ -57,5 +58,10 @@ class User extends Authenticatable
     public function likedPosts(): BelongsToMany
     {
         return $this->belongsToMany(Post::class, 'likeposts', 'user_id', 'post_id');
+    }
+    
+    public function communities()
+    {
+        return $this->belongsToMany(Community::class);
     }
 }
