@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>reponity</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <style>
         .chart-container {
             width: 300px !important;
@@ -34,9 +35,23 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const chartsData = @json($data['data']);  // PHPから受け取った全データ
+            const chartsData = @json($data['data']);  // PHPから全データ取得
 
-            Object.keys(chartsData).forEach((question) => {
+            // パステルカラーの透明度があるカラースケール
+            const pastelColorScale = [
+                'rgba(255, 99, 132, 0.6)',  // ピンク
+                'rgba(54, 162, 235, 0.6)',  // 水色
+                'rgba(255, 206, 86, 0.6)',  // パステルイエロー
+                'rgba(75, 192, 192, 0.6)',  // パステルターコイズ
+                'rgba(153, 102, 255, 0.6)', // ラベンダー
+                'rgba(255, 159, 64, 0.6)',  // パステルオレンジ
+                'rgba(255, 205, 86, 0.6)',  // 淡いゴールド
+                'rgba(201, 203, 207, 0.6)', // パステルグレー
+                'rgba(169, 223, 191, 0.6)', // パステルグリーン
+                'rgba(241, 148, 138, 0.6)'  // パステルレッド
+            ];
+
+            Object.keys(chartsData).forEach((question, questionIndex) => {
                 const canvasId = 'chart_' + question;  // 質問名ベースのID
                 const totalId = 'total_' + question;  // 回答総数用のID
                 const canvasElement = document.getElementById(canvasId);  // キャンバス要素を取得
@@ -59,8 +74,8 @@
                             labels: labels,
                             datasets: [{
                                 data: values,
-                                backgroundColor: labels.map(() => randomColor()),  // 各選択肢にランダムな色を設定
-                                borderColor: labels.map(() => randomColor(true)),  // 各選択肢にランダムな色を設定
+                                backgroundColor: labels.map((_, index) => pastelColorScale[index % pastelColorScale.length]),  // 10色のパステルカラーを繰り返し使用
+                                borderColor: labels.map(() => '#ffffff'),  // 白の境界線
                                 borderWidth: 1
                             }]
                         },
@@ -80,21 +95,37 @@
                                 },
                                 legend: {
                                     position: 'top'
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(tooltipItem) {
+                                            const value = tooltipItem.raw;
+                                            const percentage = (value / total * 100).toFixed(2);
+                                            return `${value}件 (${percentage}%)`;  // 値とパーセンテージを両方表示
+                                        }
+                                    }
+                                },
+                                datalabels: {
+                                    color: '#000',
+                                    formatter: (value, ctx) => {
+                                        const percentage = (value / total * 100).toFixed(2);
+                                        return `${value} (${percentage}%)`;  // 値とパーセンテージを両方表示
+                                    },
+                                    anchor: 'center',  // ラベルを円の内側に表示
+                                    align: 'center',   // ラベルの配置を中心に
+                                    font: {
+                                        size: 12  // フォントサイズを少し大きめに調整
+                                    },
+                                    clip: false  // ラベルが円の外側にクリッピングされないように
                                 }
                             }
-                        }
+                        },
+                        plugins: [ChartDataLabels]  // DataLabelsプラグインを使用
                     });
                 } else {
                     console.error('Canvas with ID ' + canvasId + ' not found.');
                 }
             });
-
-            function randomColor(dark = false) {
-                const r = Math.floor(Math.random() * 256);
-                const g = Math.floor(Math.random() * 256);
-                const b = Math.floor(Math.random() * 256);
-                return `rgba(${r}, ${g}, ${b}, ${dark ? '1' : '0.2'})`;
-            }
         });
     </script>
 </x-app-layout>

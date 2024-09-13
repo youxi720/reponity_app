@@ -13,13 +13,16 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('show', ['user' => Auth::user()->id])" :active="request()->routeIs('/users/{user}')">
-                        {{ __('profile') }}
+                        {{ __('Profile') }}
                     </x-nav-link>
                     <x-nav-link :href="route('my_posts')" :active="request()->routeIs('/posts/my_posts')">
-                        {{ __('my_posts') }}
+                        {{ __('My_posts') }}
                     </x-nav-link>
                     <x-nav-link :href="route('likeshow')" :active="request()->routeIs('/posts/like/show')">
-                        {{ __('likes') }}
+                        {{ __('Favorite') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('communities_index')" :active="request()->routeIs('/communities/index')">
+                        {{ __('Community') }}
                     </x-nav-link>
                 </div>
             </div>

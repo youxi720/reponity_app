@@ -5,7 +5,23 @@
         </h2>
     </x-slot>
     <body>
-    <a href='/posts/create'>create</a>
+    {{-- エラーメッセージの表示 --}}
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li class="text-red-600 ">{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    <a href='/posts/create'>Create</a>
+    <div>
+        <br>
+    </div>
+
+
+
     @foreach ($posts as $post)
     <p>対象者：{{ $post->targets->pluck('target')->implode(', ') }}</p>
     <p>概要：{{ $post->overview }}</p>

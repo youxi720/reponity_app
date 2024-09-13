@@ -6,6 +6,7 @@
     </x-slot>
     <body>
     @foreach ($posts as $post)
+        <p>投稿者：{{ $post->user->name }}</p>
         <p>対象者：{{ $post->targets->pluck('target')->implode(', ') }}</p>
         <p>概要：{{ $post->overview }}</p>
         <a href="/posts/{{ $post->id }}">回答する</a>
@@ -15,6 +16,9 @@
                 @method('DELETE')
                 <button type="submit" class="btn btn-success btn-sm">👍</button>
             </form>
+        </div>
+        <div class="blank">
+            <br>
         </div>
     @endforeach
 
