@@ -9,17 +9,31 @@ use Illuminate\Support\Facades\Auth;
 
 class CommunityController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $communities = Community::withCount('members')->get();
         $user = Auth::user();
-        
-        // ユーザーが参加しているコミュニティの ID を取得
-        $joinedCommunityIds = $user->communities()->pluck('community_id')->toArray();
-        
-        return view('communities.index', compact('communities', 'user', 'joinedCommunityIds'));
-    }
+        $keyword = $request->input('keyword');
     
+        // 参加済みコミュニティの取得
+        $InCommunities = $user->communities()->withCount('members')->get();
+    
+        // 未参加のコミュニティをキーワードでフィルタリング
+        $NotInCommunityIds = $user->communities->pluck('id')->toArray();
+        $NotInCommunities = Community::whereNotIn('id', $NotInCommunityIds)
+                                         ->where(function ($query) use ($keyword) {
+                                             $query->where('title', 'like', '%' . $keyword . '%')
+                                                   ->orWhere('description', 'like', '%' . $keyword . '%');
+                                         })
+                                         ->withCount('members')
+                                         ->get();
+    
+        return view('communities.index', [
+            'InCommunities' => $InCommunities,
+            'NotInCommunities' => $NotInCommunities,
+            'user' => $user
+        ]);
+    }
+
     public function create()
     {
         return view('communities.create');
@@ -75,5 +89,35 @@ class CommunityController extends Controller
         } else {
             return redirect()->route('communities_index')->with('error', '削除する権限がありません。');
         }
+    }
+    public function search(Request $request)
+    {
+        $keyword = $request->input('keyword');
+        $user = Auth::user(); // ログインユーザー情報を取得
+    
+        // 参加済みのコミュニティを取得
+        $InCommunities = $user->communities;
+    
+        // ユーザーが参加していないコミュニティを取得し、キーワードでフィルタリング
+        $NotInCommunities = Community::whereNotIn('id', $user->communities->pluck('id'))
+                                    ->where(function ($query) use ($keyword) {
+                                        $query->where('title', 'like', '%' . $keyword . '%')
+                                              ->orWhere('description', 'like', '%' . $keyword . '%');
+                                    })
+                                    ->get();
+    
+        return view('communities.index', compact('InCommunities', 'NotInCommunities', 'user'));
+    }
+        public function leave(Community $community)
+    {
+        $user = Auth::user();
+        
+        // コミュニティ作成者以外が脱退する処理
+        if ($user->id !== $community->creator_id) {
+            $user->communities()->detach($community->id); // コミュニティから脱退
+            return redirect()->back()->with('success', 'コミュニティを脱退しました');
+        }
+    
+        return redirect()->back()->with('error', 'コミュニティ作成者は脱退できません');
     }
 }

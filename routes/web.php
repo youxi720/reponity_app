@@ -58,7 +58,9 @@ Route::controller(CommunityController::class)->middleware('auth')->group(functio
     Route::get('/communities/{community}', 'show')->name('communities_show');
     Route::post('/communities', 'store')->name('communities_store');
     Route::post('/communities/{community}/join', 'join')->name('communities_join');
+    Route::post('/communities/{community}/leave', 'leave')->name('communities_leave');
     Route::delete('/communities/{id}', 'delete')->name('communities_delete');
+
 });
 
 Route::middleware('auth')->group(function () {
