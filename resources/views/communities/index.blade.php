@@ -5,10 +5,6 @@
                 {{ __('コミュニティ一覧') }}
             </h2>
         </x-slot>
-
-        <a href='/communities/create' class="btn btn-primary">Create</a>
-        <div class="blank"><br></div>
-
         @if ($errors->any())
             <div class="alert alert-danger">
                 <ul>
@@ -29,6 +25,7 @@
                     <p>メンバー数：{{ $community->members_count }}</p>
                     <p>作成者：{{ $community->creator->name }}</p>
                     <a href="{{ route('communities_show', $community->id) }}" class="text-blue-500">詳細</a>
+                    <a href="{{ route('chats_index', $community->id) }}" class="text-blue-500">チャット</a>
                     
                     <!-- 退会ボタン（作成者以外の場合） -->
                     @if ($community->creator_id !== auth()->id())
@@ -44,6 +41,7 @@
         <!-- 検索結果（未参加コミュニティ） -->
         <h2>・コミュニティを探す</h2>
         <!-- 検索フォーム -->
+        <a href='/communities/create' class="btn btn-primary">Create</a>
         <form action="{{ route('communities_index') }}" method="GET" class="mb-6">
             <input type="text" name="keyword" placeholder="キーワードでコミュニティを検索" class="form-input" value="{{ request()->input('keyword') }}">
             <button type="submit" class="btn btn-primary">検索</button>

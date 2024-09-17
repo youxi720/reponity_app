@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\GoogleSheetsController;
 use App\Http\Controllers\CommunityController;
+use App\Http\Controllers\ChatController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +62,11 @@ Route::controller(CommunityController::class)->middleware('auth')->group(functio
     Route::post('/communities/{community}/leave', 'leave')->name('communities_leave');
     Route::delete('/communities/{id}', 'delete')->name('communities_delete');
 
+});
+
+Route::controller(ChatController::class)->middleware('auth')->group(function(){
+    Route::get('/communities/{community}/chats', 'index')->name('chats_index');
+    Route::post('/communities/{community}/chats', 'store')->name('chats_store');
 });
 
 Route::middleware('auth')->group(function () {
