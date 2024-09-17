@@ -23,6 +23,8 @@
                 @endif
             </ul>
             
+            <a href="{{ route('chats_index', $community->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-800">チャット</a>
+            
             @if ($community->creator_id === $user->id)
                 <form action="{{ route('communities_delete', $community->id) }}" method="POST" class="mt-4">
                     @csrf

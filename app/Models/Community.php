@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Chat;
 
 class Community extends Model
 {
@@ -24,5 +25,10 @@ class Community extends Model
     public function members()
     {
         return $this->belongsToMany(User::class);
+    }
+    
+    public function chats()
+    {
+        return $this->hasMany(Chat::class);
     }
 }
