@@ -90,25 +90,8 @@ class CommunityController extends Controller
             return redirect()->route('communities_index')->with('error', '削除する権限がありません。');
         }
     }
-    public function search(Request $request)
-    {
-        $keyword = $request->input('keyword');
-        $user = Auth::user(); // ログインユーザー情報を取得
     
-        // 参加済みのコミュニティを取得
-        $InCommunities = $user->communities;
-    
-        // ユーザーが参加していないコミュニティを取得し、キーワードでフィルタリング
-        $NotInCommunities = Community::whereNotIn('id', $user->communities->pluck('id'))
-                                    ->where(function ($query) use ($keyword) {
-                                        $query->where('title', 'like', '%' . $keyword . '%')
-                                              ->orWhere('description', 'like', '%' . $keyword . '%');
-                                    })
-                                    ->get();
-    
-        return view('communities.index', compact('InCommunities', 'NotInCommunities', 'user'));
-    }
-        public function leave(Community $community)
+    public function leave(Community $community)
     {
         $user = Auth::user();
         
