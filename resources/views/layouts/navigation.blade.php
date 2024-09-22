@@ -44,7 +44,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('登録情報の変更') }}
+                            {{ __('Settings') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -76,8 +76,17 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+            <x-responsive-nav-link :href="route('show', ['user' => Auth::user()->id])" :active="request()->routeIs('/users/{user}')">
+                {{ __('Profile') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('my_posts')" :active="request()->routeIs('/posts/my_posts')">
+                {{ __('My_posts') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('likeshow')" :active="request()->routeIs('/posts/like/show')">
+                {{ __('Favorite') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('communities_index')" :active="request()->routeIs('/communities/index')">
+                {{ __('Community') }}
             </x-responsive-nav-link>
         </div>
 
@@ -87,10 +96,10 @@
                 <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
             </div>
-
+            
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
+                    {{ __('Settings') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->

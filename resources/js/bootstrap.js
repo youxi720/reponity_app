@@ -5,6 +5,9 @@
  */
 
 import axios from 'axios';
+import Pusher from 'pusher-js';
+import Echo from 'laravel-echo/dist/echo.common.js';
+
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -15,10 +18,14 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from 'laravel-echo';
+window.Pusher = Pusher;
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: '6e23fbeaf08885625adf',
+    cluster: 'ap3',
+    forceTLS: true
+});
 
-// import Pusher from 'pusher-js';
-// window.Pusher = Pusher;
 
 // window.Echo = new Echo({
 //     broadcaster: 'pusher',
