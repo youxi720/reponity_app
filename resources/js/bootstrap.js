@@ -21,7 +21,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.Pusher = Pusher;
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: import.meta.env.VITE_PUSHER_APP_KEY,  // 環境変数に置き換え
-    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER ?? 'ap3',  // 環境変数に置き換え
+    key: '6e23fbeaf08885625adf',
+    cluster: 'ap3',
     forceTLS: true
 });
