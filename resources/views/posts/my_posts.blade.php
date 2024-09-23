@@ -16,12 +16,13 @@
         </div>
     @endif
 
-    <a href='/posts/create' class="mt-3 ml-4 inline-flex items-center px-4 py-2 mb-4 bg-blue-600 text-white rounded-md hover:bg-blue-500">
+    <a href='/posts/create' class="mt-3 ml-6 inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500">
         Create
     </a>
 
+    <div class="p-6 space-y-6">
     @foreach ($posts as $post)
-        <div class="p-4 border border-gray-300 rounded-lg shadow-sm bg-white mb-4">
+        <div class="p-4 border border-gray-300 rounded-lg shadow-sm bg-white">
             <p class="font-semibold">対象者：{{ $post->targets->pluck('target')->implode(', ') }}</p>
             <p class="text-gray-700">概要：{{ $post->overview }}</p>
             
@@ -37,9 +38,13 @@
             </div>
         </div>
     @endforeach
+    </div>
 
-    <div class='paginate mt-6'>
-        {{ $posts->links() }}
+    <!-- ページネーション -->
+    <div class="paginate mt-6 flex justify-center">
+        <ul class="inline-flex items-center space-x-1">
+            {{ $posts->appends(request()->input())->links('pagination::tailwind') }}
+        </ul>
     </div>
 
     <script>

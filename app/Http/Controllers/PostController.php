@@ -23,7 +23,7 @@ public function post_index(Request $request)
     }
 
     // 投稿とターゲットデータを取得
-    $posts = $query->orderBy('updated_at', 'DESC')->paginate(10);
+    $posts = $query->orderBy('updated_at', 'DESC')->paginate(5); // ページネーションを5件で実行
     $targets = Target::all(); // ターゲット一覧を取得
 
     return view('posts.index', compact('posts', 'targets'));
@@ -61,7 +61,7 @@ public function post_index(Request $request)
     // 自分の投稿一覧
     public function my_posts()
     {
-        $posts = Post::where('user_id', Auth::id())->paginate(5);
+        $posts = Post::where('user_id', Auth::id())->orderBy('updated_at', 'DESC')->paginate(5);
         return view('posts.my_posts', compact('posts'));
     }
     
@@ -139,7 +139,7 @@ public function post_index(Request $request)
         $user_id = Auth::id();
         $posts = Post::whereHas('likes', function($query) use ($user_id) {
             $query->where('user_id', $user_id);
-        })->paginate(5);
+        })->orderBy('updated_at', 'DESC')->paginate(5);
 
         return view('posts.likes', compact('posts'));
     }
