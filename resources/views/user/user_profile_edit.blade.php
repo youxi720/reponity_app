@@ -5,7 +5,6 @@
     <title>reponity</title>
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
 <x-app-layout>
@@ -17,7 +16,7 @@
 
     <div class="max-w-2xl mx-auto mt-6 mb-6 bg-white p-6 rounded-lg shadow-md">
         <h3 class="text-lg font-bold mb-4">プロフィール編集</h3>
-        <form action="/users/{{ $user_profile->id }}" method="POST">
+        <form action="/users/{{ $user_profile->id }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method("PUT")
 
@@ -51,6 +50,10 @@
             <div class="mb-4">
                 <h4 class="font-semibold mb-2">趣味</h4>
                 <input type='text' name='hobby' value="{{ $user_profile->hobby }}" class="form-input mt-1 block w-full" placeholder="例: サッカー">
+            </div>
+            
+            <div class="image">
+                <input type="file" name="image">
             </div>
 
             <button type="submit" class="mt-4 bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-500 transition duration-150">保存</button>

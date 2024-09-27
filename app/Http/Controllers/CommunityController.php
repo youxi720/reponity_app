@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Community;
+use Cloudinary;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -39,18 +40,22 @@ class CommunityController extends Controller
         return view('communities.create');
     }
     
-    public function store(Request $request)
+    public function store(Request $request, Community $community)
     {
-            $community = Community::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'creator_id' => Auth::id(),
-        ]);
-
+        $input = $request->only(['title', 'description']);
+        if ($request->file('image')) {
+            $image_url = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
+            // 入力データに画像URLを追加
+            $input['image_url'] = $image_url;
+        }
+        // 作成者IDを追加
+        $input['creator_id'] = Auth::id();
+        // データを保存
+        $community = Community::create($input);
+        
         // コミュニティ作成者をメンバーとして追加
         $community->members()->attach(Auth::id());
-
-        return redirect()->route('communities_index');
+        return redirect()->route('communities_index')->with('success', 'コミュニティを作成しました。');
     }
 
     // コミュニティ参加

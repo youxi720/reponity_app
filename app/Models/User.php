@@ -28,6 +28,7 @@ class User extends Authenticatable
         'faculty',
         'hobby',
         'answers',
+        'image_url',
     ];
 
     /**
