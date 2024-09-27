@@ -7,22 +7,36 @@
         </x-slot>
         
         <div class="mt-6 max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
-            <h1 class="text-2xl font-bold mb-4">{{ $community->title }}</h1>
-            <p class="text-gray-600 mb-6">概要：{{ $community->description }}</p>
-            
-            <h2 class="text-xl font-semibold mb-2">メンバー</h2>
-            <ul class="list-disc list-inside mb-6">
-                @if ($community->members->isNotEmpty())
-                    @foreach($community->members as $member)
-                        <li class="mb-2">
-                            <a href="/users/{{ $member->id }}" class="text-blue-500 hover:underline">{{ $member->name }}</a>
-                        </li>
-                    @endforeach
-                @else
-                    <li>メンバーがまだいません</li>
-                @endif
-            </ul>
-            
+            <!-- 画像を表示する部分 -->
+            <div class="flex items-start mb-4">
+                <div class="mt-2 ml-5 mr-4">
+                    @if ($community->image_url)
+                        <img src="{{ $community->image_url }}" alt="コミュニティ画像" class="w-20 h-20 rounded-full object-cover">
+                    @else
+                        <img src="{{ asset('default_profile.jpeg') }}" alt="デフォルト画像" class="w-20 h-20 rounded-full object-cover">
+                    @endif
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold mt-3 mb-4 ml-10">{{ $community->title }}</h1>
+                    <p class="text-gray-600 mb-6 ml-10">概要：{{ $community->description }}</p>
+                </div>
+            </div>
+
+            <div class="ml-7">
+                <h2 class="text-xl font-semibold mb-2">メンバー</h2>
+                <ul class="list-disc list-inside mb-6">
+                    @if ($community->members->isNotEmpty())
+                        @foreach($community->members as $member)
+                            <li class="mb-2">
+                                <a href="/users/{{ $member->id }}" class="text-blue-500 hover:underline">{{ $member->name }}</a>
+                            </li>
+                        @endforeach
+                    @else
+                        <li>メンバーがまだいません</li>
+                    @endif
+                </ul>
+            </div>
+
             <a href="{{ route('chats_index', $community->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-800">チャット</a>
             
             @if ($community->creator_id === $user->id)

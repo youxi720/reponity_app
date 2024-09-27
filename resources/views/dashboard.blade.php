@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900">
                     <p>ログインが完了しました。</p>
                 </div>
-                <a href="/posts" class="p-6 text-blue-600">ホームへ行く</a>
+                <a href="/posts" class="pl-6 text-blue-600">ホームへ行く</a>
             </div>
         </div>
     </div>
