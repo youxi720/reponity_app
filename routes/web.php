@@ -57,6 +57,8 @@ Route::controller(CommunityController::class)->middleware('auth')->group(functio
     Route::get('/communities/index', 'index')->name('communities_index');
     Route::get('/communities/create', 'create')->name('communities_create');
     Route::get('/communities/{community}', 'show')->name('communities_show');
+    Route::get('/communities/{community}/edit', 'edit')->name('communities_edit');
+    Route::put('/communities/{community}', 'update')->name('communities_update');
     Route::post('/communities', 'store')->name('communities_store');
     Route::post('/communities/{community}/join', 'join')->name('communities_join');
     Route::post('/communities/{community}/leave', 'leave')->name('communities_leave');

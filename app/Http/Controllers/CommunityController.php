@@ -108,4 +108,20 @@ class CommunityController extends Controller
     
         return redirect()->back()->with('error', 'コミュニティ作成者は脱退できません');
     }
+    
+    public function edit(Community $community)
+    {
+        return view("communities.edit")->with(["community" => $community]);
+    }
+    
+    public function update(Request $request, Community $community)
+    {
+        if ($request->file("image")) {
+            $image_url = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
+            $community->image_url = $image_url;
+        }
+        $community->fill($request->except('image'))->save();
+        return redirect()->route("communities_show", ['community' => $community->id]);
+    }
+
 }
