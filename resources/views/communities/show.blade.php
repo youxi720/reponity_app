@@ -40,7 +40,8 @@
             <a href="{{ route('chats_index', $community->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-800">チャット</a>
             
             @if ($community->creator_id === $user->id)
-                <form action="{{ route('communities_delete', $community->id) }}" method="POST" class="mt-4">
+                <a href="{{ route('communities_edit', $community->id) }}" class="ml-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-800">編集</a>
+                <form action="{{ route('communities_delete', $community->id) }}" method="POST" class="mt-8">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600" onclick="return confirm('削除すると復元できません。\n本当に削除しますか？')">コミュニティを削除</button>
