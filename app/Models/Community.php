@@ -14,7 +14,8 @@ class Community extends Model
         protected $fillable = [
         'title',
         'description',
-        'creator_id'
+        'creator_id',
+        'image_url',
     ];
     
     public function creator()

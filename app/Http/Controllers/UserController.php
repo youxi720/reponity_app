@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Cloudinary;
 use App\Models\User;
 use App\Models\Post;
 
@@ -22,8 +23,15 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        // fillメソッドで更新する
-        $user->fill($request->all())->save();
+        if ($request->file('image')) {
+            // Cloudinaryに画像をアップロードし、URLを取得
+            $image_url = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
+            // 画像URLをデータベースに保存
+            $user->image_url = $image_url;
+        }
+    
+        // 他のフィールドを更新
+        $user->fill($request->except('image'))->save();
         return redirect()->route('show', ['user' => $user->id]);
     }
 
