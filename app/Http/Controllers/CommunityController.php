@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\CommunityRequest;
 use App\Models\Community;
 use Cloudinary;
 use Illuminate\Support\Facades\Auth;
@@ -16,11 +17,11 @@ class CommunityController extends Controller
         $keyword = $request->input('keyword');
     
         // 参加済みコミュニティの取得
-        $InCommunities = $user->communities()->withCount('members')->get();
+        $JoinCommunities = $user->communities()->withCount('members')->get();
     
         // 未参加のコミュニティをキーワードでフィルタリング
-        $NotInCommunityIds = $user->communities->pluck('id')->toArray();
-        $NotInCommunities = Community::whereNotIn('id', $NotInCommunityIds)
+        $NotJoinCommunityIds = $user->communities->pluck('id')->toArray();
+        $NotJoinCommunities = Community::whereNotIn('id', $NotJoinCommunityIds)
                                          ->where(function ($query) use ($keyword) {
                                              $query->where('title', 'like', '%' . $keyword . '%')
                                                    ->orWhere('description', 'like', '%' . $keyword . '%');
@@ -29,8 +30,8 @@ class CommunityController extends Controller
                                          ->get();
     
         return view('communities.index', [
-            'InCommunities' => $InCommunities,
-            'NotInCommunities' => $NotInCommunities,
+            'JoinCommunities' => $JoinCommunities,
+            'NotJoinCommunities' => $NotJoinCommunities,
             'user' => $user
         ]);
     }
@@ -40,7 +41,7 @@ class CommunityController extends Controller
         return view('communities.create');
     }
     
-    public function store(Request $request, Community $community)
+    public function store(CommunityRequest $request, Community $community)
     {
         $input = $request->only(['title', 'description']);
         if ($request->file('image')) {
@@ -114,7 +115,7 @@ class CommunityController extends Controller
         return view("communities.edit")->with(["community" => $community]);
     }
     
-    public function update(Request $request, Community $community)
+    public function update(CommunityRequest $request, Community $community)
     {
         if ($request->file("image")) {
             $image_url = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
@@ -123,5 +124,4 @@ class CommunityController extends Controller
         $community->fill($request->except('image'))->save();
         return redirect()->route("communities_show", ['community' => $community->id]);
     }
-
 }

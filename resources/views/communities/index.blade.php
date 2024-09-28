@@ -20,7 +20,7 @@
             <!-- 参加済みコミュニティ -->
             <h2 class="text-2xl font-bold mb-4">参加済みコミュニティ</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-x-4">
-                @foreach ($InCommunities as $community)
+                @foreach ($JoinCommunities as $community)
                     <div class="border p-4 rounded shadow bg-white">
                         <p class="font-bold">コミュニティ名：{{ $community->title }}</p>
                         <p>コミュニティ概要：{{ $community->description }}</p>
@@ -55,9 +55,9 @@
                 </form>
             </div>
 
-            @if ($NotInCommunities->isNotEmpty())
+            @if ($NotJoinCommunities->isNotEmpty())
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-x-4">
-                    @foreach ($NotInCommunities as $community)
+                    @foreach ($NotJoinCommunities as $community)
                         <div class="border p-3 rounded-lg shadow bg-white">
                             <p class="font-bold">コミュニティ名：{{ $community->title }}</p>
                             <p>コミュニティ概要：{{ $community->description }}</p>

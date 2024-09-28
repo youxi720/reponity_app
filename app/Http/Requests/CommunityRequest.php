@@ -4,14 +4,13 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserVioRequest extends FormRequest
+class CommunityRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        // 全てのユーザーがリクエストを行えるようにtrueを返す
         return true;
     }
 
@@ -23,24 +22,21 @@ class UserVioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'faculty' => 'nullable|string|max:50',
-            'hobby' => 'nullable|string|max:50',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1024|dimensions:max_width=300,ratio=1/1',
+            'title' => 'required|string|max:100',
+            'description' => 'required|string|max:255',
+            'creator_id' => 'required|exists:users,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1024|dimensions:max_width=300,ratio=1/1'
         ];
     }
-
-    /**
-     * Custom error messages for validation rules.
-     *
-     * @return array<string, string>
-     */
-    public function messages(): array
+    
+    public function messages()
     {
         return [
-            'faculty.string' => '学部は文字列である必要があります。',
-            'faculty.max' => '学部は50文字以内で入力してください。',
-            'hobby.string' => '趣味は文字列である必要があります。',
-            'hobby.max' => '趣味は50文字以内で入力してください。',
+            'title.required' => 'タイトルは必須です。',
+            'title.max' => 'タイトルは100文字以内で入力してください。',
+            'description.max' => '説明は255文字以内で入力してください。',
+            'creator_id.required' => '作成者IDは必須です。',
+            'creator_id.exists' => '無効な作成者IDです。',
             'image.image' => 'アップロードされたファイルは画像である必要があります。',
             'image.mimes' => '画像はjpeg, png, jpg, gif形式である必要があります。',
             'image.max' => '画像サイズは1MB以下にしてください。',
