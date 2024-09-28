@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\PostRequest;
+use App\Http\Requests\LikePostRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Post;
@@ -38,7 +40,7 @@ public function post_index(Request $request)
     }
     
     // 投稿の保存
-    public function post_store(Request $request)
+    public function post_store(PostRequest $request)
     {
         $input = $request->input('post');
         $input['user_id'] = $request->user()->id;
@@ -69,29 +71,40 @@ public function post_index(Request $request)
     public function post_edit(Post $post)
     {
         $allTargets = Target::all(); // すべてのターゲットを取得
+        
+        if (!empty($post->sheet)) {
+        $post->spreadsheet_url = "https://docs.google.com/spreadsheets/d/{$post->sheet}/edit";
+        } else {
+            $post->spreadsheet_url = null; // URLがない場合はnullをセット
+        }
+        
         return view('posts.edit', compact('post', 'allTargets'));
     }
     
     // 投稿の更新
-    public function post_update(Request $request, Post $post)
+    public function post_update(PostRequest $request, Post $post)
     {
         $input = $request->input('post');
-        $spreadsheetUrl = $request->input('spreadsheet_url');
-        $sheetId = $this->getSpreadsheetId($spreadsheetUrl);
+        $spreadsheetUrl = $request->input('post.spreadsheet_url');
     
-        if ($sheetId) {
-            $input['sheet'] = $sheetId;
+        // スプレッドシートのURLが空の場合はnullに設定
+        if (empty($spreadsheetUrl)) {
+            $input['sheet'] = null; // ここでnullに設定
+        } else {
+            $sheetId = $this->getSpreadsheetId($spreadsheetUrl);
+            if ($sheetId) {
+                $input['sheet'] = $sheetId;
+            }
         }
     
         $targetIds = $input['target_ids'] ?? [];
-    
+        
         $post->update($input);
         $post->targets()->sync($targetIds);
     
         return redirect('/posts/my_posts');
     }
 
-    
     // スプレッドシートIDの抽出
     private function getSpreadsheetId($url)
     {
@@ -110,7 +123,7 @@ public function post_index(Request $request)
     }
 
     // 「いいね」を追加
-    public function like(Request $request, Post $post)
+    public function like(LikePostRequest $request, Post $post)
     {
         $user = Auth::user();
     
@@ -122,7 +135,7 @@ public function post_index(Request $request)
     }
 
     // 「いいね」を削除
-    public function unlike(Request $request, Post $post)
+    public function unlike(LikePostRequest $request, Post $post)
     {
         $user = Auth::user();
     

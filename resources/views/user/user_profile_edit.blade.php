@@ -40,20 +40,32 @@
                         <span class="ml-2">学部4年生</span>
                     </label>
                 </div>
+                @error('grade')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <h4 class="font-semibold mb-2">学部</h4>
                 <input type='text' name='faculty' value="{{ $user_profile->faculty }}" class="form-input mt-1 block w-full" placeholder="例: 経済学部">
+                @error('faculty')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="mb-4">
                 <h4 class="font-semibold mb-2">趣味</h4>
                 <input type='text' name='hobby' value="{{ $user_profile->hobby }}" class="form-input mt-1 block w-full" placeholder="例: サッカー">
+                @error('hobby')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
             
-            <div class="image">
+            <div class="image mb-4">
                 <input type="file" name="image">
+                @error('image')
+                    <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <button type="submit" class="mt-4 bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-500 transition duration-150">保存</button>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\UserVioRequest;
 use Illuminate\Support\Facades\Auth;
 use Cloudinary;
 use App\Models\User;
@@ -21,7 +22,7 @@ class UserController extends Controller
         return view("user.user_profile_edit")->with(["user_profile" => $user]);
     }
 
-    public function update(Request $request, User $user)
+    public function update(UserVioRequest $request, User $user)
     {
         if ($request->file('image')) {
             // Cloudinaryに画像をアップロードし、URLを取得
@@ -45,7 +46,7 @@ class UserController extends Controller
         return response()->json(['success' => false], 403);
     }
     
-    public function thankspage(Request $request)
+    public function thankspage()
     {
         return view("posts.thanks");
     }

@@ -13,16 +13,25 @@
                 <div>
                     <label for="title" class="block text-sm font-medium text-gray-700">コミュニティ名:</label>
                     <input type="text" name="title" id="title" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                    @error('title')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
     
                 <!-- コミュニティ概要 -->
                 <div>
                     <label for="description" class="block text-sm font-medium text-gray-700">コミュニティ概要:</label>
                     <textarea name="description" id="description" rows="4" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"></textarea>
+                    @error('description')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
                 
                 <div class="image">
                     <input type="file" name="image">
+                    @error('image')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
                 <!-- 作成ボタン -->
                 <div>

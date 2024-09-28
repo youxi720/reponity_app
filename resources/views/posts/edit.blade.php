@@ -31,21 +31,33 @@
                             </label>
                         @endforeach
                     </div>
+                    @error('post.target_ids')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
                 
                 <div class="overview mb-6">
                     <h2 class="font-semibold text-lg mb-2">概要</h2>
                     <textarea name="post[overview]" required class="w-full border border-gray-300 rounded-md p-2" rows="4">{{ $post->overview }}</textarea>
+                    @error('post.overview')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="form_url mb-6">
                     <h2 class="font-semibold text-lg mb-2">フォームリンク</h2>
                     <input type="text" name="post[form_url]" value="{{ $post->form_url }}" required class="w-full border border-gray-300 rounded-md p-2"/>
+                    @error('post.form_url')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
-
+                
                 <div class="sheet mb-6">
                     <h2 class="font-semibold text-lg mb-2">GoogleスプレッドシートのURL</h2>
-                    <input type="text" name="spreadsheet_url" value="{{ $post->sheet }}" class="w-full border border-gray-300 rounded-md p-2" />
+                    <input type="text" name="post[spreadsheet_url]" value="{{ old('post.spreadsheet_url', $post->spreadsheet_url) }}" class="w-full border border-gray-300 rounded-md p-2" />
+                    @error('post.spreadsheet_url')
+                        <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <input type="submit" value="保存" class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition duration-200 text-center">
