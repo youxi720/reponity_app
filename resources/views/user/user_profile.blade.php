@@ -22,7 +22,7 @@
                 @if ($user_profile->image_url)
                     <img src="{{ $user_profile->image_url }}" alt="プロフィール画像" class="w-20 h-20 rounded-full object-cover">
                 @else
-                    <img src="{{ asset('default_profile.jpeg') }}" alt="プロフィール画像" class="w-20 h-20 rounded-full object-cover">
+                    <img src="{{ asset('images/default_profile.jpeg') }}" alt="プロフィール画像" class="w-20 h-20 rounded-full object-cover">
                 @endif
             </div>
             <div>

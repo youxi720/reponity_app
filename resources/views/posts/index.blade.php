@@ -18,7 +18,7 @@
                 @endforeach
             </select>
         </div>
-        <button type="submit" class="mt-5 ml-2 inline-flex items-center px-4 py-2 border border-transparent rounded-md font-semibold text-black hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+        <button type="submit" class="mt-5 ml-2 inline-flex items-center px-3 py-2 border border-transparent rounded-md font-semibold text-black hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-xs sm:text-sm">
             絞り込み
         </button>
     </form>
