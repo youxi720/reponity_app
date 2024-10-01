@@ -7,7 +7,7 @@
         </x-slot>
         <div class="max-w-2xl mx-auto mt-6 bg-white p-6 rounded-lg shadow-md">
             <h1 class="text-2xl font-bold mb-6">コミュニティ作成</h1>
-            <form method="POST" action="{{ route('communities_store') }}" class="space-y-6" enctype="multipart/form-data">
+            <form action="{{ route('communities_store') }}" method="POST" class="space-y-6" enctype="multipart/form-data">
                 @csrf
                 <!-- コミュニティ名 -->
                 <div>
@@ -27,7 +27,8 @@
                     @enderror
                 </div>
                 
-                <div class="image">
+                <div class="image mb-4">
+                    <label for="image" class="block text-sm font-medium text-gray-700">コミュニティ画像:</label>
                     <input type="file" name="image">
                     @error('image')
                         <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
