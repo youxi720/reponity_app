@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laravel</title>
+    <title>Reponity</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -13,7 +13,7 @@
     <!-- Hero Section -->
     <div class="h-screen bg-cover bg-center flex items-center justify-center" style="background-image: url({{ asset('images/book_background.jpg') }});">
         <div class="text-center text-white bg-black bg-opacity-50 p-8 rounded-lg">
-            <h1 class="text-6xl font-bold">reponity</h1>
+            <h1 class="text-6xl font-bold">Reponity</h1>
             <p class="text-xl mt-4">Report × Community<br>アンケート調査をする人で集まりましょう</p>
             <div class="mt-6 space-x-4">
                 @if (auth()->check())

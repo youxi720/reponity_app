@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <title>reponity</title>
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-</head>
-<body class="bg-gray-100">
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -16,7 +7,7 @@
 
     <div class="max-w-2xl mx-auto mt-6 mb-6 bg-white p-6 rounded-lg shadow-md">
         <h3 class="text-lg font-bold mb-4">プロフィール編集</h3>
-        <form action="/users/{{ $user_profile->id }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('show', ['user' => $user_profile->id]) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method("PUT")
 
@@ -62,6 +53,7 @@
             </div>
             
             <div class="image mb-4">
+                <label for="image" class="block text-sm font-medium text-gray-700">プロフィール画像:</label>
                 <input type="file" name="image">
                 @error('image')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
@@ -74,5 +66,3 @@
         <a href="/users/{{ $user_profile->id }}" class="mt-4 inline-block text-blue-600 hover:underline">戻る</a>
     </div>
 </x-app-layout>
-</body>
-</html>

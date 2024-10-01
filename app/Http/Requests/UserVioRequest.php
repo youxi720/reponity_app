@@ -25,7 +25,7 @@ class UserVioRequest extends FormRequest
         return [
             'faculty' => 'nullable|string|max:50',
             'hobby' => 'nullable|string|max:50',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1024|dimensions:max_width=300,ratio=1/1',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:1024|dimensions:max_width=600,ratio=1/1',
         ];
     }
 
@@ -44,7 +44,7 @@ class UserVioRequest extends FormRequest
             'image.image' => 'アップロードされたファイルは画像である必要があります。',
             'image.mimes' => '画像はjpeg, png, jpg, gif形式である必要があります。',
             'image.max' => '画像サイズは1MB以下にしてください。',
-            'image.dimensions' => '画像は最大幅300ピクセルで正方形にしてください。',
+            'image.dimensions' => '画像は最大幅600ピクセルで正方形にしてください。',
         ];
     }
 }
