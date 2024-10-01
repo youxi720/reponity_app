@@ -27,10 +27,6 @@ Route::controller(GoogleSheetsController::class)->middleware(['auth'])->group(fu
     Route::get('/chart/{post}', 'showChart')->name('chart_by_post');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::controller(UserController::class)->middleware(['auth'])->group(function(){
     Route::get('/users/{user}', 'show')->name('show');
     Route::put('/users/{user}', 'update')->name('update');

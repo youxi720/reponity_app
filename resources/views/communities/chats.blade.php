@@ -4,15 +4,16 @@
             {{ __('Community') }}
         </h2>
     </x-slot>    
-    <h3 class="text-xl font-bold mb-4">{{ $community->title }} のチャット</h3>
+
+    <h3 class="ml-5 text-xl font-bold mb-4">{{ $community->title }} のチャット</h3>
 
     <!-- 全体を囲むコンテナ -->
-    <div class="flex flex-col h-[70vh] border rounded-lg">
+    <div class="flex flex-col h-[64vh] border rounded-lg shadow-md">
 
         <!-- メッセージ表示エリア（固定の高さに設定） -->
         <div id="chat-window" class="flex-1 overflow-y-auto bg-gray-100 p-4 border-b h-[60vh]">
             @if($chats->isEmpty())
-                <p class="text-gray-600">まだメッセージがありません</p>
+                <p class="text-gray-600 text-center">まだメッセージがありません</p>
             @else
                 @foreach($chats->reverse() as $chat)  <!-- メッセージを逆順に表示 -->
                     @if($chat->user->id === auth()->id())
@@ -43,11 +44,11 @@
             @csrf
             <div class="flex items-center">
                 <textarea name="message" rows="2" class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="メッセージを入力" required></textarea>
-                <button type="submit" class="ml-2 bg-blue-500 text-white px-4 py-2 rounded-lg">送信</button>
+                <button type="submit" class="ml-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200">送信</button>
             </div>
         </form>
     </div>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             var chatWindow = document.getElementById('chat-window');
