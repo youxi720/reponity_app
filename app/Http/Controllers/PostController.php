@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
-use App\Http\Requests\LikePostRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Post;
@@ -123,7 +122,7 @@ public function post_index(Request $request)
     }
 
     // 「いいね」を追加
-    public function like(LikePostRequest $request, Post $post)
+    public function like(Request $request, Post $post)
     {
         $user = Auth::user();
     
@@ -135,7 +134,7 @@ public function post_index(Request $request)
     }
 
     // 「いいね」を削除
-    public function unlike(LikePostRequest $request, Post $post)
+    public function unlike(Request $request, Post $post)
     {
         $user = Auth::user();
     

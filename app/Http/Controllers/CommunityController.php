@@ -121,7 +121,8 @@ class CommunityController extends Controller
             $image_url = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
             $community->image_url = $image_url;
         }
-        $community->fill($request->except('image'))->save();
+        
+        $community->fill($request->only(['title', 'description']))->save();
         return redirect()->route("communities_show", ['community' => $community->id]);
     }
 }
