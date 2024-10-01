@@ -19,9 +19,9 @@
         @foreach ($data['data'] as $index => $chartData)
             <div class="w-full max-w-md mb-8">
                 <div class="text-center total-count" id="total_{{ $index }}"></div>
-                <div class="flex justify-center">
-                    <canvas id="chart_{{ $index }}" class="w-3/4 h-80"></canvas> <!-- 円グラフ用キャンバス -->
-                    <canvas id="bar_chart_{{ $index }}" class="w-3/4 h-80 mt-4"></canvas> <!-- 縦棒グラフ用キャンバス -->
+                <div class="flex flex-col md:flex-row justify-center">
+                    <canvas id="chart_{{ $index }}" class="w-full h-80 mb-4 md:mb-0 md:w-3/4"></canvas> <!-- 円グラフ用キャンバス -->
+                    <canvas id="bar_chart_{{ $index }}" class="w-full h-60 md:h-80 md:w-3/4"></canvas> <!-- 縦棒グラフ用キャンバス -->
                 </div>
             </div>
         @endforeach
