@@ -5,8 +5,8 @@
                 {{ __('Community') }}
             </h2>
         </x-slot>
-        <div class="max-w-2xl mx-auto mt-6 bg-white p-6 rounded-lg shadow-md sm:max-w-full">
-            <h1 class="text-2xl font-bold mb-6">コミュニティ作成</h1>
+        <div class="max-w-2xl mx-auto mt-6 bg-white p-6 rounded-lg shadow-md">
+            <h1 class="text-2xl font-bold mb-6">コミュニティ編集</h1>
             <form action="{{ route('communities_update', ['community' => $community->id]) }}" method="POST" class="space-y-6" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
