@@ -32,7 +32,7 @@ class UserController extends Controller
         }
     
         // 他のフィールドを更新
-        $user->fill($request->only(['title', 'descreption']))->save();
+        $user->fill($request->only(['grade', 'faculty', 'hobby']))->save();
         return redirect()->route('show', ['user' => $user->id]);
     }
 
