@@ -14,14 +14,14 @@
             {{ __('Myposts') }}
         </h2>
     </x-slot>
-
+    <h2 class="text-lg ml-4 font-semibold">回答集計結果</h2>
     <div class="flex flex-col items-center mt-8">
         @foreach ($data['data'] as $index => $chartData)
-            <div class="w-full max-w-md mb-8">
+            <div class="bg-white w-full max-w-md mb-5 pl-2 pr-2 md:pr-0 md:bg-gray-100">
                 <div class="text-center total-count" id="total_{{ $index }}"></div>
                 <div class="flex flex-col md:flex-row justify-center">
-                    <canvas id="chart_{{ $index }}" class="w-full h-80 mb-4 md:mb-0 md:w-3/4"></canvas> <!-- 円グラフ用キャンバス -->
-                    <canvas id="bar_chart_{{ $index }}" class="w-full h-60 md:h-80 md:w-3/4"></canvas> <!-- 縦棒グラフ用キャンバス -->
+                    <canvas id="chart_{{ $index }}" class="w-full h-80 mb-4 pr-2 md:mb-0 md:w-3/4"></canvas> <!-- 円グラフ用キャンバス -->
+                    <canvas id="bar_chart_{{ $index }}" class="w-full h-60 md:mt-20 md:h-80 md:w-3/4"></canvas> <!-- 縦棒グラフ用キャンバス -->
                 </div>
             </div>
         @endforeach
