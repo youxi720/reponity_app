@@ -6,7 +6,7 @@
     </x-slot>
 
     <!-- 絞り込みフォーム -->
-    <form method="GET" action="{{ route('post_index') }}" class="mb-2 flex items-center">
+    <form method="GET" action="{{ route('post_index') }}" class="flex items-center">
         <div class="mb-1 ml-6">
             <label for="target" class="block text-sm font-medium text-gray-700">ターゲットで絞り込み:</label>
             <select name="target_id" id="target" class="mt-1 block w-60 border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
@@ -22,11 +22,6 @@
             絞り込み
         </button>
     </form>
-
-    <!-- 投稿作成リンク -->
-    <a href='/posts/create' class="ml-6 inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-white hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-        Create
-    </a>
 
     <!-- 投稿一覧 -->
     <div class="p-6 space-y-6">
