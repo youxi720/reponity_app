@@ -31,6 +31,8 @@
             <main class="pb-5">
                 {{ $slot }}
             </main>
+            <!-- Footer -->
+            @include('layouts.footer')
         </div>
     </body>
 </html>
