@@ -37,18 +37,17 @@
                         回答する
                     </a>
                     
-                    <div class='like-btn ml-2'>
+                    <div class='ml-2'>
                         @if($post->is_liked_by_auth_user())
-                            <form action="{{ route('unlike', ['post' => $post->id]) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('unlike', ['post' => $post->id]) }}" method="POST" class="inline">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="ml-4 inline-flex items-center justify-center w-10 h-10 bg-red-600 rounded-full text-white hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">👍</button>
+                                <button type="submit" class="like-btn liked ml-4 inline-flex items-center justify-center w-10 h-10 bg-red-600 rounded-full text-white hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">👍</button>
                             </form>
                         @else
-                            <form action="{{ route('like', ['post' => $post->id]) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('like', ['post' => $post->id]) }}" method="POST" class="inline">
                                 @csrf
-                                <button type="submit" class="ml-4 inline-flex items-center justify-center w-10 h-10 border-2 border-gray-400 rounded-full px-4 py-4 font-semibold text-black hover:bg-gray-400 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-500 focus:ring-offset-2">👍</button>
-
+                                <button type="submit" class="like-btn ml-4 inline-flex items-center justify-center w-10 h-10 border-2 border-gray-400 rounded-full px-4 py-4 font-semibold text-black hover:bg-gray-400 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-500 focus:ring-offset-2">👍</button>
                             </form>
                         @endif
                     </div>
@@ -63,4 +62,34 @@
             {{ $posts->appends(request()->input())->links('pagination::tailwind') }}
         </ul>
     </div>
+    
+    <script>
+        document.querySelectorAll('.like-btn').forEach(likeBtn => {
+            likeBtn.addEventListener('click', async (e) => {
+                e.preventDefault(); // ページのリロードを防ぐ
+                const form = e.target.closest('form');
+                const url = form.action;  // フォームのアクションURLを取得
+                const method = form.querySelector('input[name="_method"]') ? 'DELETE' : 'POST';  // POSTかDELETEか判断
+
+                try {
+                    const res = await fetch(url, {
+                        method: method,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content') // CSRFトークンを追加
+                        }
+                    });
+
+                    if (res.ok) {
+                        // 成功時の処理。ページを再読み込みなどでUIを更新する
+                        location.reload();
+                    } else {
+                        throw new Error('いいね処理に失敗しました');
+                    }
+                } catch (error) {
+                    alert(error.message);
+                }
+            });
+        });
+    </script>
 </x-app-layout>

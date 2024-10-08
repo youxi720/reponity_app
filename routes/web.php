@@ -51,7 +51,7 @@ Route::controller(PostController::class)->middleware(['auth'])->group(function()
     Route::put('/posts/{post}', 'post_update')->name('post_update');
     Route::delete('/posts/{post}', 'delete')->name('delete');  
     Route::post('/posts/{post}/like', 'like')->name('like');
-    Route::delete('/posts/{post}/like', 'unlike')->name('unlike');
+    Route::delete('/posts/{post}/unlike', 'unlike')->name('unlike');
     Route::get('/posts/like/show', 'likeshow')->name('likeshow');
 });
 
