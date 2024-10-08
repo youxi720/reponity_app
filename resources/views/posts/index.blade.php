@@ -25,35 +25,39 @@
 
     <!-- 投稿一覧 -->
     <div class="p-6 space-y-6">
-        @foreach ($posts as $post)
-            <div class="p-4 border border-gray-300 rounded-lg shadow-sm bg-white">
-                <p class="font-semibold">投稿者：<a href="/users/{{ $post->user->id }}" class="text-blue-600 hover:underline">{{ $post->user->name }}</a></p>
-                <p class="text-gray-700">対象者：{{ $post->targets->pluck('target')->implode(', ') }}</p>
-                <p class="text-gray-600">概要：{{ $post->overview }}</p>
-                
-                <!-- 回答するボタンといいねボタンを並列に配置 -->
-                <div class="flex items-center mt-2">
-                    <a href="/posts/{{ $post->id }}" class="inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-white hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                        回答する
-                    </a>
+        @if ($posts->isNotEmpty())
+            @foreach ($posts as $post)
+                <div class="p-4 border border-gray-300 rounded-lg shadow-sm bg-white">
+                    <p class="font-semibold">投稿者：<a href="/users/{{ $post->user->id }}" class="text-blue-600 hover:underline">{{ $post->user->name }}</a></p>
+                    <p class="text-gray-700">対象者：{{ $post->targets->pluck('target')->implode(', ') }}</p>
+                    <p class="text-gray-600">概要：{{ $post->overview }}</p>
                     
-                    <div class='ml-2'>
-                        @if($post->is_liked_by_auth_user())
-                            <form action="{{ route('unlike', ['post' => $post->id]) }}" method="POST" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="like-btn liked ml-4 inline-flex items-center justify-center w-10 h-10 bg-red-600 rounded-full text-white hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">👍</button>
-                            </form>
-                        @else
-                            <form action="{{ route('like', ['post' => $post->id]) }}" method="POST" class="inline">
-                                @csrf
-                                <button type="submit" class="like-btn ml-4 inline-flex items-center justify-center w-10 h-10 border-2 border-gray-400 rounded-full px-4 py-4 font-semibold text-black hover:bg-gray-400 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-500 focus:ring-offset-2">👍</button>
-                            </form>
-                        @endif
+                    <!-- 回答するボタンといいねボタンを並列に配置 -->
+                    <div class="flex items-center mt-2">
+                        <a href="/posts/{{ $post->id }}" class="inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-white hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                            回答する
+                        </a>
+                        
+                        <div class='ml-2'>
+                            @if($post->is_liked_by_auth_user())
+                                <form action="{{ route('unlike', ['post' => $post->id]) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="like-btn liked ml-4 inline-flex items-center justify-center w-10 h-10 bg-red-600 rounded-full text-white hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">👍</button>
+                                </form>
+                            @else
+                                <form action="{{ route('like', ['post' => $post->id]) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="like-btn ml-4 inline-flex items-center justify-center w-10 h-10 border-2 border-gray-400 rounded-full px-4 py-4 font-semibold text-black hover:bg-gray-400 hover:text-white focus:outline-none focus:ring-1 focus:ring-gray-500 focus:ring-offset-2">👍</button>
+                                </form>
+                            @endif
+                        </div>
                     </div>
                 </div>
-            </div>
-        @endforeach
+            @endforeach
+        @else
+            <p class="text-center text-gray-600 mt-20 mb-20">投稿が見つかりませんでした。</p>
+        @endif
     </div>
 
     <!-- ページネーション -->
