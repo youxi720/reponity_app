@@ -1,17 +1,17 @@
 <nav x-data="{ open: false }" class="bg-blue-50 border-b border-blue-200">
-    <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- プライマリナビゲーションメニュー -->
+    <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 items-center">
             <div class="flex">
-                <!-- Logo -->
+                <!-- ロゴ -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('post_index') }}">
                         <img src="{{ asset('images/my_logo.png') }}" alt="{{ config('app.name', 'Laravel') }}" class="h-12">
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
-                <div class="hidden sm:flex space-x-8 sm:-my-px sm:ms-10">
+                <!-- ナビゲーションリンク -->
+                <div class="hidden md:flex space-x-8 sm:-my-px sm:ms-10">
                     <x-nav-link :href="route('show', ['user' => Auth::user()->id])" :active="request()->routeIs('/users/{user}')" class="text-blue-600 hover:text-blue-800">
                         {{ __('Profile') }}
                     </x-nav-link>
@@ -30,8 +30,8 @@
                 </div>
             </div>
 
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <!-- 設定ドロップダウン -->
+            <div class="hidden md:flex md:items-center md:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:bg-blue-100 focus:outline-none transition ease-in-out duration-150">
@@ -49,7 +49,7 @@
                             {{ __('Settings') }}
                         </x-dropdown-link>
 
-                        <!-- Authentication -->
+                        <!-- 認証 -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <x-dropdown-link :href="route('logout')"
@@ -62,8 +62,8 @@
                 </x-dropdown>
             </div>
 
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
+            <!-- ハンバーガーメニュー -->
+            <div class="-me-2 flex items-center md:hidden">
                 <button @click="open = !open" class="inline-flex items-center justify-center p-2 rounded-md text-blue-400 hover:text-blue-600 hover:bg-blue-100 focus:outline-none focus:bg-blue-100 focus:text-blue-600 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': !open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -74,8 +74,8 @@
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': !open}" class="hidden sm:hidden">
+    <!-- レスポンシブナビゲーションメニュー -->
+    <div :class="{'block': open, 'hidden': !open}" class="hidden md:hidden">
         <div class="pt-2 pb-3 space-y-1 bg-blue-50">
             <x-responsive-nav-link :href="route('show', ['user' => Auth::user()->id])" :active="request()->routeIs('/users/{user}')" class="text-blue-600 hover:bg-blue-100">
                 {{ __('Profile') }}
@@ -94,7 +94,7 @@
             </x-responsive-nav-link>
         </div>
 
-        <!-- Responsive Settings Options -->
+        <!-- レスポンシブ設定オプション -->
         <div class="pt-4 pb-1 border-t border-blue-200 bg-blue-50">
             <div class="px-4">
                 <div class="font-medium text-base text-blue-800">{{ Auth::user()->name }}</div>
@@ -106,7 +106,7 @@
                     {{ __('Settings') }}
                 </x-responsive-nav-link>
 
-                <!-- Authentication -->
+                <!-- 認証 -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <x-responsive-nav-link :href="route('logout')"
