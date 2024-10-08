@@ -7,6 +7,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\GoogleSheetsController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,11 @@ use App\Http\Controllers\ChatController;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::controller(ArticleController::class)->group(function (){
+    Route::get('/articles/search', 'search')->name('articles_search');
+    Route::get('/articles', 'index')->name('articles_index');
 });
 
 Route::controller(GoogleSheetsController::class)->middleware(['auth'])->group(function(){

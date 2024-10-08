@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use App\Http\Clients\CiniiApiClient;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,6 +14,9 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         Paginator::useBootstrap();
+        $this->app->singleton(CiniiApiClient::class, function ($app) {
+            return new CiniiApiClient();
+        });
     }
 
     /**
