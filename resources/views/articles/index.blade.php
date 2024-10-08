@@ -42,7 +42,7 @@
                 </div>
             @endforeach
         @else
-            <p class="text-center text-gray-600">No articles found.</p>
+            <p class="text-center text-gray-600 mt-20 mb-20">No articles found.</p>
         @endif
     </div>
     

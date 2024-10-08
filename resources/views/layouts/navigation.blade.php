@@ -89,6 +89,9 @@
             <x-responsive-nav-link :href="route('communities_index')" :active="request()->routeIs('/communities/index')" class="text-blue-600 hover:bg-blue-100">
                 {{ __('Community') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('articles_index')" :active="request()->routeIs('/articles/index')" class="text-blue-600 hover:text-blue-800">
+                {{ __('Search') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->

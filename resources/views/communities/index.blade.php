@@ -51,7 +51,7 @@
                 </a>
                 <form action="{{ route('communities_index') }}" method="GET" class="flex ml-3 mt-5">
                     <input type="text" name="keyword" placeholder="キーワード検索" class="form-input border border-gray-300 rounded-md p-2" value="{{ request()->input('keyword') }}">
-                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-500 ml-2">検索</button>
+                    <button type="submit" class="whitespace-nowrap bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-500 ml-2">検索</button>
                 </form>
             </div>
 
