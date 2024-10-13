@@ -95,4 +95,4 @@ php artisan migrate
 ```
 php artisan serve
 ```
-これで、http://localhost:8000にアクセスできるようになります。
+これで、http://localhost:8000 にアクセスできるようになります。
