@@ -38,7 +38,7 @@ class GoogleSheetsController extends Controller
         $client = new Google_Client();
         $client->setApplicationName('Google Sheets API');
         $client->setScopes(Google_Service_Sheets::SPREADSHEETS_READONLY);
-        $client->setAuthConfig(storage_path('credentials.json'));
+        $client->setAuthConfig(env('GOOGLE_APPLICATION_CREDENTIALS'));
 
         $service = new Google_Service_Sheets($client);
         $range = $sheetName;  // シート名を動的に使用
