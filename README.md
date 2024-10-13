@@ -55,7 +55,7 @@ Reponityは、レポートを書くためにアンケートを収集したいと
 - **API**: Cinii API, Google Sheets API
 
 ## ER図
-![ER図](/reponity_app/public/images/ER図.png)
+![ER図](reponity_app/reponity_app/public/images/ER図.png/)
 
 ## セットアップ
 以下の手順に従って、Reponityをローカル環境にセットアップします。
