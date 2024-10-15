@@ -32,7 +32,7 @@ class Post extends Model
     
     public function targets()
     {
-        return $this->belongsToMany(Target::class, 'post_target');
+        return $this->belongsToMany(Target::class, 'post_target', 'post_id', 'target_id');
     }
     
     // 投稿にLIKEがついているのか判定

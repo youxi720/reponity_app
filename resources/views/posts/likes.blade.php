@@ -9,9 +9,9 @@
         @if ($posts->isNotEmpty())
             @foreach ($posts as $post)
                 <div class="p-4 border border-gray-300 rounded-lg shadow-sm bg-white">
-                    <p class="font-semibold text-gray-800">投稿者：<span class="text-blue-600">{{ $post->user->name }}</span></p>
-                    <p class="text-gray-700"><strong>対象者：</strong>{{ $post->targets->pluck('target')->implode(', ') }}</p>
-                    <p class="text-gray-600"><strong>概要：</strong>{{ $post->overview }}</p>
+                    <p class="font-semibold">投稿者：<a href="/users/{{ $post->user->id }}" class="text-blue-600 hover:underline">{{ $post->user->name }}</a></p>
+                    <p class="text-gray-700">対象者：{{ $post->targets->pluck('target')->implode(', ') }}</p>
+                    <p class="text-gray-700">概要：{{ $post->overview }}</p>
 
                     <div class="flex items-center mt-2">
                         <a href="/posts/{{ $post->id }}" class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">

@@ -14,6 +14,6 @@ class Target extends Model
     
     public function posts()
     {
-        return $this->belongsToMany(Post::class, 'post_target');
+        return $this->belongsToMany(Post::class, 'post_target', 'target_id', 'post_id');
     }
 }
