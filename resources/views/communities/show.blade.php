@@ -37,7 +37,10 @@
                 </ul>
             </div>
 
-            <a href="{{ route('chats_index', $community->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-800">チャット</a>
+            @if ($community->members->contains('id', Auth::id()) || $community->creator_id === Auth::id())
+                <a href="{{ route('chats_index', $community->id) }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-800">チャット</a>
+            @endif
+
             
             @if ($community->creator_id === $user->id)
                 <a href="{{ route('communities_edit', $community->id) }}" class="ml-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-800">編集</a>
