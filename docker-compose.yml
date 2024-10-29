@@ -1,0 +1,51 @@
+services:
+  database:
+    image: mysql:5.7
+    container_name: db_test
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: reponity  # データベース名
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: db_user        # ユーザー名
+      MYSQL_PASSWORD: password    # ユーザーのパスワード
+    volumes:
+      - ./volumes/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./volumes/my.cnf:/etc/mysql/conf.d/my.cnf
+    ports:
+      - "3306:3306"
+
+  php-apache:
+    container_name: reponity_app
+    build:
+      context: .  # Dockerfileのパス
+    ports:
+      - "8000:80"  # localhost:8000でアクセスできる
+    volumes:
+      - .:/var/www/test
+      - ./apache/default.conf:/etc/apache2/sites-enabled/000-default.conf
+    depends_on:
+      - database  # databaseに後に実行する
+    environment:
+      DB_HOST: database  # データベースホスト名
+      DB_PORT: 3306
+      DB_DATABASE: reponity
+      DB_USERNAME: db_user
+      DB_PASSWORD: password
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - database  # databaseに後に実行する
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=database  # データベース名
+      - PMA_USER=db_user   # phpMyAdminのユーザー名
+      - PMA_PASSWORD=password # phpMyAdminのパスワード
+    ports:
+      - "3000:80"  # localhost:3000でphpMyadminにアクセスできる
+    volumes:
+      - ./volumes/docker/phpmyadmin/sessions:/sessions
+
+networks:
+  default:
+    driver: bridge
