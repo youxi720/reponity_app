@@ -30,6 +30,7 @@ Reponityは、レポートを書くためにアンケートを収集したいと
 
 ## アプリURL
 [https://reponity-6a74f1455ef5.herokuapp.com/](https://reponity-6a74f1455ef5.herokuapp.com/)
+<br>*現在は公開していません。
 <br><テストユーザーアカウント>
 <br>Email: example@ex.com
 <br>password: testexample 
